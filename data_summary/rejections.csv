@@ -1,0 +1,24 @@
+run_id,campaign_step,E,delay_ms,rep,attempt,order_index,reason,dropped_samples,dt_monotonic,marker_count,drift_pct,status
+main_E8_rep9,step1_main,8,60,9,1,1,"First active marker appeared too early (at sample 0, expected >= 28,000)",0,1,0,0.0,REJECTED
+main_E8_rep9,step1_main,8,60,9,1,1,"Dropped samples detected: 99 > 0",99,1,0,0.0,REJECTED
+main_E8_rep9,step1_main,8,60,9,1,1,"Non-monotonic timestamp at index 0: dt=-62695.0 ms",0,1,0,0.0,REJECTED
+main_E2_rep7,step1_main,2,60,7,1,5,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E2_rep7,step1_main,2,60,7,2,5,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E2_rep7,step1_main,2,60,7,3,5,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E8_rep4,step1_main,8,60,4,1,9,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E8_rep4,step1_main,8,60,4,2,9,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E1_rep10,step1_main,1,60,10,1,11,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E5_rep7,step1_main,5,60,7,1,34,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+main_E20_rep7,step1_main,20,60,7,1,52,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d0_rep3,step2_tail,20,0,3,1,85,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d0_rep3,step2_tail,20,0,3,2,85,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d0_rep3,step2_tail,20,0,3,3,85,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d60_rep3,step2_tail,20,60,3,1,86,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d60_rep3,step2_tail,20,60,3,2,86,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d60_rep3,step2_tail,20,60,3,3,86,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d200_rep3,step2_tail,20,200,3,1,87,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d200_rep3,step2_tail,20,200,3,2,87,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d200_rep3,step2_tail,20,200,3,3,87,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E1_d0_rep4,step2_tail,1,0,4,1,88,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E1_d0_rep4,step2_tail,1,0,4,2,88,"Incorrect train pulse count: 0 (expected exactly 1)",0,1,0,0.0,REJECTED
+tail_E20_d0_rep3,step2_tail,20,0,3,1,85,"Non-monotonic timestamp at index 0: dt=0.0 ms",0,1,0,0.0,REJECTED

@@ -1,0 +1,87 @@
+{
+  "setup_metadata": {
+    "date_time_start": "2026-10-15T19:25:00+06:00",
+    "git_commit_hash": "3c1746670a787c6a5c2a787081b742e5c0bee56d",
+    "protocol_version": "v2_homogeneous_fixed_protocol",
+    "experimenter": "MD Abdus Shakur Siam",
+    "bench_location": "Photonics Research Lab / BUET"
+  },
+  "boards_and_firmware": {
+    "board_a_dut": {
+      "hardware": "Espressif ESP32-S3-DevKitC-1 (Xtensa dual-core LX7 @ 240 MHz, 512 KiB SRAM)",
+      "serial_port": "COM7",
+      "baud_rate": 115200,
+      "firmware_file": "firmware/BOARD_A/BOARD_A.ino",
+      "firmware_git_hash": "3c1746670a787c6a5c2a787081b742e5c0bee56d",
+      "model": "12-Class Keyword Spotting (DS-CNN-S Split)",
+      "trainable_head_parameters": 780,
+      "trainable_head_bytes": 3120,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "dataset_samples": 100,
+      "active_sleep_mode": "SLEEP_ACTIVE_STANDBY (0)"
+    },
+    "board_b_logger": {
+      "hardware": "Espressif ESP32-S3-DevKitC-1 (Xtensa dual-core LX7 @ 240 MHz)",
+      "serial_port": "COM18",
+      "baud_rate": 921600,
+      "firmware_file": "firmware/BOARD_B/BOARD_B.ino",
+      "firmware_git_hash": "3c1746670a787c6a5c2a787081b742e5c0bee56d",
+      "sampling_rate_hz": 1000,
+      "sampling_interval_us": 1000,
+      "schema": "9-column (timestamp_ms,voltage_V,current_A,power_mW,gpio_train,gpio_comm,raw_phase_code,debounced_phase_code,dropped_samples)"
+    }
+  },
+  "ina238_sensor_configuration": {
+    "device": "TI INA238 Digital Power Monitor (I2C 0x40)",
+    "shunt_resistor_value_ohm": 0.015,
+    "shunt_tolerance_percent": 1.0,
+    "sensing_topology": "High-side sensing on 5.0 V VBUS rail",
+    "adc_range": "+/- 163.84 mV (ADCRANGE = 0)",
+    "vbus_lsb_v": 0.003125,
+    "vshunt_lsb_v": 0.000005,
+    "conversion_time_us": 540,
+    "averaging_mode": "1x (ADC_CONFIG = 0xFB00, continuous shunt and bus)",
+    "pull_down_resistors": "100 kOhm on all 5 GPIO strobe/phase lines (GPIO 10, 11, 12, 13, 14)"
+  },
+  "environment_and_rf_conditions": {
+    "supply_voltage_nominal_v": 5.0,
+    "supply_voltage_multimeter_before_v": 5.04,
+    "supply_voltage_multimeter_after_v": 5.04,
+    "ina238_logged_bus_voltage_mean_v": 5.034,
+    "wifi_access_point": "phone hotspot",
+    "wifi_standard": "802.11 b/g/n",
+    "frequency_band": "2.4 GHz",
+    "channel": 6,
+    "distance_meters": 0.5,
+    "rssi_start_dbm": -40,
+    "rssi_end_dbm": -41,
+    "ambient_temperature_celsius": 25.0,
+    "hardware_interconnects": "Fixed jumper cables, dedicated USB isolator on logger, common bench ground"
+  },
+  "campaign_parameters": {
+    "step1_main_campaign": {
+      "epochs": [1, 2, 5, 8, 10, 20],
+      "repeats_per_regime": 10,
+      "total_main_runs": 60,
+      "settle_delay_ms": 60,
+      "idle_baseline_before_sec": 30,
+      "idle_baseline_after_sec": 30
+    },
+    "step2_tail_ab_test": {
+      "epochs": [1, 5, 20],
+      "settle_delays_ms": [0, 60, 200],
+      "repeats_per_cell": 5,
+      "total_tail_ab_runs": 45,
+      "idle_baseline_before_sec": 30,
+      "idle_baseline_after_sec": 30
+    },
+    "quality_gates": {
+      "max_dropped_samples": 0,
+      "timestamps_strictly_increasing": true,
+      "marker_count_verified": true,
+      "max_baseline_drift_percent": 2.0,
+      "max_retries_per_slot": 3
+    }
+  }
+}
