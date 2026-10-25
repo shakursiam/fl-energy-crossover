@@ -39,9 +39,13 @@
     "sensing_topology": "High-side sensing on 5.0 V VBUS rail",
     "adc_range": "+/- 163.84 mV (ADCRANGE = 0)",
     "vbus_lsb_v": 0.003125,
-    "vshunt_lsb_v": 0.000005,
-    "conversion_time_us": 540,
-    "averaging_mode": "1x (ADC_CONFIG = 0xFB00, continuous shunt and bus)",
+    "vshunt_lsb_v": 5e-06,
+    "conversion_time_us": {
+      "bus": 280,
+      "shunt": 280,
+      "temperature": 50
+    },
+    "averaging_mode": "1x (ADC_CONFIG = 0xF6C0: continuous bus, shunt and temperature; VBUSCT = VSHCT = 280 us, VTCT = 50 us; cycle 610 us < 1 ms)",
     "pull_down_resistors": "100 kOhm on all 5 GPIO strobe/phase lines (GPIO 10, 11, 12, 13, 14)"
   },
   "environment_and_rf_conditions": {
@@ -57,11 +61,19 @@
     "rssi_start_dbm": -40,
     "rssi_end_dbm": -41,
     "ambient_temperature_celsius": 25.0,
-    "hardware_interconnects": "Fixed jumper cables, dedicated USB isolator on logger, common bench ground"
+    "hardware_interconnects": "Fixed jumper cables, dedicated USB isolator on logger, common bench ground",
+    "rssi_note": "RSSI read at the start and end of the campaign only; not logged per run (the rssi columns in run_summary.csv are these campaign-level constants)"
   },
   "campaign_parameters": {
     "step1_main_campaign": {
-      "epochs": [1, 2, 5, 8, 10, 20],
+      "epochs": [
+        1,
+        2,
+        5,
+        8,
+        10,
+        20
+      ],
       "repeats_per_regime": 10,
       "total_main_runs": 60,
       "settle_delay_ms": 60,
@@ -69,8 +81,16 @@
       "idle_baseline_after_sec": 30
     },
     "step2_tail_ab_test": {
-      "epochs": [1, 5, 20],
-      "settle_delays_ms": [0, 60, 200],
+      "epochs": [
+        1,
+        5,
+        20
+      ],
+      "settle_delays_ms": [
+        0,
+        60,
+        200
+      ],
       "repeats_per_cell": 5,
       "total_tail_ab_runs": 45,
       "idle_baseline_before_sec": 30,

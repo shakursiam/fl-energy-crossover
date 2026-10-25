@@ -20,19 +20,36 @@ N['perE'] = rows
 a, c, r2 = ols(M.E, M.marginal_comp_energy_mJ); N['fit'] = dict(a=a, c=c, r2=r2)
 comm = M.marginal_comm_energy_mJ.mean(); cfg = M.energy_config_mJ.mean()
 N['comm_mean'] = comm; N['comm_median'] = M.marginal_comm_energy_mJ.median(); N['cfg_mean'] = cfg
-N['Estar_A'] = (comm-c)/a; N['Estar_B'] = (comm+0.506-c)/a; N['Estar_all_cfg'] = (comm+cfg-c)/a
+# Version B charges the radio tail measured in the tail test: intercept at 0 ms minus intercept at 60 ms
+T0 = S[(S.campaign_step == 'step2_tail') & (S.delay_ms == 0)]
+tail = ols(T0.E, T0.marginal_comp_energy_mJ)[1] - ols(T60.E, T60.marginal_comp_energy_mJ)[1]
+N['tail_mJ'] = tail
+N['Estar_A'] = (comm-c)/a; N['Estar_B'] = (comm+tail-c)/a; N['Estar_all_cfg'] = (comm+cfg-c)/a
 N['Estar_median_comm'] = (N['comm_median']-c)/a
 # bootstrap E* (stratified over E for comp fit; comm resampled over all runs)
-B = 5000; ea = []; eb = []; ec = []
+B = 5000; ea = []; ec = []
 groups = {e: g for e, g in M.groupby('E')}
 for _ in range(B):
     Es = []; ys = []; cm = []; cf = []
     for e, g in groups.items():
         idx = rng.integers(0, len(g), len(g)); s = g.iloc[idx]
         Es += [e]*len(s); ys += list(s.marginal_comp_energy_mJ); cm += list(s.marginal_comm_energy_mJ); cf += list(s.energy_config_mJ)
-    aa, cc, _ = ols(Es, ys); ea.append((np.mean(cm)-cc)/aa); eb.append((np.mean(cm)+0.506-cc)/aa); ec.append((np.mean(cm)+np.mean(cf)-cc)/aa)
+    aa, cc, _ = ols(Es, ys); ea.append((np.mean(cm)-cc)/aa); ec.append((np.mean(cm)+np.mean(cf)-cc)/aa)
 ci = lambda x: [float(np.percentile(x, 2.5)), float(np.percentile(x, 97.5))]
-N['Estar_A_ci'] = ci(ea); N['Estar_B_ci'] = ci(eb); N['Estar_all_cfg_ci'] = ci(ec)
+N['Estar_A_ci'] = ci(ea); N['Estar_all_cfg_ci'] = ci(ec)
+# Version B interval: main campaign and tail test resampled jointly (stratified over E)
+rngb = np.random.default_rng(778); eb = []
+def strat(df):
+    return pd.concat([g.iloc[rngb.integers(0, len(g), len(g))] for _, g in df.groupby('E')])
+for _ in range(B):
+    s = strat(M); aa, cc, _ = ols(s.E, s.marginal_comp_energy_mJ)
+    s0, s6 = strat(T0), strat(T60)
+    tb = ols(s0.E, s0.marginal_comp_energy_mJ)[1] - ols(s6.E, s6.marginal_comp_energy_mJ)[1]
+    eb.append((s.marginal_comm_energy_mJ.mean()+tb-cc)/aa)
+N['Estar_B_ci'] = ci(eb)
+# interval of the pooled communication mean (60 runs), used in the text and in the figures
+rngc = np.random.default_rng(779); cmv = M.marginal_comm_energy_mJ.values
+N['comm_mean_ci'] = ci([rngc.choice(cmv, len(cmv)).mean() for _ in range(B)])
 # step-2 60 ms rows
 a2, c2, r22 = ols(T60.E, T60.marginal_comp_energy_mJ); comm2 = T60.marginal_comm_energy_mJ.mean()
 ea2 = []
