@@ -1,0 +1,83 @@
+## 1793381382.099 port opened
+1793381386.401 # [INFO] Wi-Fi connected in 1204 ms, IP=172.20.10.4
+1793381388.845 # [CYCLE 1/20] standby
+1793381455.021 # [CYCLE 1] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793381522.391 port opened
+1793381523.021 # [CYCLE 1] deep wake: boot_count=2 reconnect_ms=1136 (since app start)
+1793381523.021 # [CYCLE 2/20] standby
+1793381589.062 # [CYCLE 2] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793381656.636 port opened
+1793381657.261 # [CYCLE 2] deep wake: boot_count=3 reconnect_ms=1104 (since app start)
+1793381657.261 # [CYCLE 3/20] standby
+1793381723.178 # [CYCLE 3] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793381793.143 port opened
+1793381794.066 # [CYCLE 3] deep wake: boot_count=4 reconnect_ms=1407 (since app start)
+1793381794.066 # [CYCLE 4/20] standby
+1793381859.925 # [CYCLE 4] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793381927.927 port opened
+1793381928.532 # [CYCLE 4] deep wake: boot_count=5 reconnect_ms=1113 (since app start)
+1793381928.532 # [CYCLE 5/20] standby
+1793381994.477 # [CYCLE 5] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793382061.873 port opened
+1793382062.488 # [CYCLE 5] deep wake: boot_count=6 reconnect_ms=1112 (since app start)
+1793382062.488 # [CYCLE 6/20] standby
+1793382128.434 # [CYCLE 6] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793382196.141 port opened
+1793382197.069 # [CYCLE 6] deep wake: boot_count=7 reconnect_ms=1608 (since app start)
+1793382197.069 # [CYCLE 7/20] standby
+1793382263.319 # [CYCLE 7] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793382330.630 port opened
+1793382331.258 # [CYCLE 7] deep wake: boot_count=8 reconnect_ms=1107 (since app start)
+1793382331.258 # [CYCLE 8/20] standby
+1793382397.243 # [CYCLE 8] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793382465.138 port opened
+1793382465.756 # [CYCLE 8] deep wake: boot_count=9 reconnect_ms=1114 (since app start)
+1793382465.756 # [CYCLE 9/20] standby
+1793382531.809 # [CYCLE 9] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793382599.557 port opened
+1793382600.164 # [CYCLE 9] deep wake: boot_count=10 reconnect_ms=1258 (since app start)
+1793382600.164 # [CYCLE 10/20] standby
+1793382666.333 # [CYCLE 10] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793382734.034 port opened
+1793382734.661 # [CYCLE 10] deep wake: boot_count=11 reconnect_ms=1113 (since app start)
+1793382734.661 # [CYCLE 11/20] standby
+1793382800.629 # [CYCLE 11] ps_standby=0 ps_modem=1 connected=1 RSSI=-25 dBm
+## 1793382868.478 port opened
+1793382869.078 # [CYCLE 11] deep wake: boot_count=12 reconnect_ms=1132 (since app start)
+1793382869.078 # [CYCLE 12/20] standby
+1793382935.236 # [CYCLE 12] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793383002.458 port opened
+1793383003.073 # [CYCLE 12] deep wake: boot_count=13 reconnect_ms=1115 (since app start)
+1793383003.073 # [CYCLE 13/20] standby
+1793383069.075 # [CYCLE 13] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793383136.474 port opened
+1793383137.092 # [CYCLE 13] deep wake: boot_count=14 reconnect_ms=1123 (since app start)
+1793383137.092 # [CYCLE 14/20] standby
+1793383203.063 # [CYCLE 14] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793383270.527 port opened
+1793383271.146 # [CYCLE 14] deep wake: boot_count=15 reconnect_ms=1124 (since app start)
+1793383271.146 # [CYCLE 15/20] standby
+1793383337.026 # [CYCLE 15] ps_standby=0 ps_modem=1 connected=1 RSSI=-24 dBm
+## 1793383404.833 port opened
+1793383405.442 # [CYCLE 15] deep wake: boot_count=16 reconnect_ms=1174 (since app start)
+1793383405.442 # [CYCLE 16/20] standby
+1793383471.413 # [CYCLE 16] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793383538.901 port opened
+1793383539.819 # [CYCLE 16] deep wake: boot_count=17 reconnect_ms=1451 (since app start)
+1793383539.819 # [CYCLE 17/20] standby
+1793383605.700 # [CYCLE 17] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793383673.557 port opened
+1793383674.166 # [CYCLE 17] deep wake: boot_count=18 reconnect_ms=1109 (since app start)
+1793383674.166 # [CYCLE 18/20] standby
+1793383740.311 # [CYCLE 18] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793383807.575 port opened
+1793383808.181 # [CYCLE 18] deep wake: boot_count=19 reconnect_ms=1347 (since app start)
+1793383808.181 # [CYCLE 19/20] standby
+1793383874.447 # [CYCLE 19] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793383941.804 port opened
+1793383942.419 # [CYCLE 19] deep wake: boot_count=20 reconnect_ms=1119 (since app start)
+1793383942.419 # [CYCLE 20/20] standby
+1793384008.314 # [CYCLE 20] ps_standby=0 ps_modem=1 connected=1 RSSI=-23 dBm
+## 1793384075.793 port opened
+1793384077.002 # [CYCLE 20] deep wake: boot_count=21 reconnect_ms=1621 (since app start)
+1793384077.002 # [SESSION] all cycles done; staying in active standby

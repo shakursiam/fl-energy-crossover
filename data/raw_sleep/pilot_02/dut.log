@@ -1,0 +1,11 @@
+## 1793381060.488 port opened
+
+1793381061.711 # ===================================================
+1793381061.711 # Board A: Campaign 4 sleep-power / wake-energy firmware
+1793381061.711 # Cycles=1  T_state=10000 ms  T_gap=3000 ms  reset_reason=11
+1793381061.711 # Codes: 1=standby 2=modem 3=light 4=deep 5=deep-wake 6=light-wake 7=session
+1793381061.711 # ===================================================
+1793381066.016 # [INFO] Wi-Fi connected in 1128 ms, IP=172.20.10.4
+1793381094.614 # [CYCLE 1/1] standby
+1793381094.614 # [CYCLE 1] ps_standby=0 ps_modem=1 connected=1 RSSI=-25 dBm
+## 1793381122.092 port opened
