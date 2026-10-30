@@ -9,30 +9,36 @@ The test pool is split per class into a validation half (learning-rate selection
 half (all reported numbers). Rounds to 75% test accuracy are interpolated linearly between rounds.
 Energies combine R(E) with the measured fits in derived.json (T_comm = median, 125 ms).
 Writes <data_summary>/convergence.json, convergence_curves.npz and <figure dir>/fig_convergence_v3.pdf.
-Add a 4th argument 'plot' to redraw the figure from the saved results.
+Add a 4th argument 'plot' to redraw the figure from the saved results, or 'reprice' to recompute the
+energies and optima from the saved per-seed rounds with the current derived.json (no retraining).
 """
 import sys, json, numpy as np
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 feat, ds, fd = sys.argv[1], sys.argv[2], sys.argv[3]
-PLOT_ONLY = len(sys.argv) > 4 and sys.argv[4] == 'plot'   # reuse saved results
+MODE = sys.argv[4] if len(sys.argv) > 4 else 'run'
+PLOT_ONLY = MODE in ('plot', 'reprice')   # reuse saved results
 K, N_K, B, ROUNDS, ALPHA_DIR = 20, 100, 16, 30, 0.3
 SEEDS = list(range(42, 62))
 EPOCHS = [1, 2, 5, 8, 10, 20]
 LRS = [0.003, 0.01, 0.03, 0.1, 0.3, 1.0]
 TARGET = 75.0
-TR_S, PS_DEEP_MW, EWAKE_DEEP_MJ = 60.0, 0.08, 180.0   # assumed deep-sleep values, as in Table V
+TR_S = 60.0
+_deep = [s for s in json.load(open(ds + '/derived.json'))['sleep'] if s['state'] == 'Deep sleep'][0]
+PS_DEEP_MW, EWAKE_DEEP_MJ = _deep['Ps'], _deep['wake']   # Campaign 4 measured values (assumed: 0.08 mW, 180 mJ)
+DEEP_SOURCE = json.load(open(ds + '/derived.json')).get('sleep_source', 'assumed')
 
-d = np.load(feat)
-xtr, ytr, xte_all, yte_all = d['x_train'], d['y_train'], d['x_test'], d['y_test']
-C = len(d['labels'])
-# per-class split of the test pool into validation and test halves (fixed)
-rs = np.random.RandomState(0); val_idx, test_idx = [], []
-for c in np.unique(yte_all):
-    idx = np.where(yte_all == c)[0]; rs.shuffle(idx); h = len(idx) // 2
-    val_idx += idx[:h].tolist(); test_idx += idx[h:].tolist()
-xva, yva, xte, yte = xte_all[val_idx], yte_all[val_idx], xte_all[test_idx], yte_all[test_idx]
+if not PLOT_ONLY:
+    d = np.load(feat)
+    xtr, ytr, xte_all, yte_all = d['x_train'], d['y_train'], d['x_test'], d['y_test']
+    C = len(d['labels'])
+    # per-class split of the test pool into validation and test halves (fixed)
+    rs = np.random.RandomState(0); val_idx, test_idx = [], []
+    for c in np.unique(yte_all):
+        idx = np.where(yte_all == c)[0]; rs.shuffle(idx); h = len(idx) // 2
+        val_idx += idx[:h].tolist(); test_idx += idx[h:].tolist()
+    xva, yva, xte, yte = xte_all[val_idx], yte_all[val_idx], xte_all[test_idx], yte_all[test_idx]
 
 def partition(seed):
     """Dirichlet label skew, then exactly N_K disjoint clips per client."""
@@ -147,6 +153,23 @@ if not PLOT_ONLY:
 else:
     out = json.load(open(ds + '/convergence.json'))
     z = np.load(ds + '/convergence_curves.npz'); curves = {e: z[f'E{e}'] for e in EPOCHS}
+    if MODE == 'reprice':
+        for e in EPOCHS:
+            p = out['perE'][str(e)]; m, g, dp = turn_mj(e)
+            p.update(E_marg_J=p['R_mean'] * m / 1000, E_gross_J=p['R_mean'] * g / 1000, E_deep_J=p['R_mean'] * dp / 1000,
+                     E_gross_ci=[x * g / 1000 for x in p['R_ci']])
+        for key, idx in [('marg', 0), ('gross', 1), ('deep', 2)]:
+            best_e = []
+            for si in range(len(SEEDS)):
+                cost = {e: out['perE'][str(e)]['R_seeds'][si] * turn_mj(e)[idx] for e in EPOCHS
+                        if out['perE'][str(e)]['R_seeds'][si] is not None}
+                best_e.append(min(cost, key=cost.get))
+            out['opt_' + key] = {'mean_based': min(EPOCHS, key=lambda e: out['perE'][str(e)]['E_' + key + '_J']),
+                                 'per_seed_counts': {str(e): best_e.count(e) for e in EPOCHS}}
+        out['deep_sleep_inputs'] = dict(Ps_mW=PS_DEEP_MW, Ewake_mJ=EWAKE_DEEP_MJ, Tr_s=TR_S, source=DEEP_SOURCE)
+        json.dump(out, open(ds + '/convergence.json', 'w'), indent=1)
+        print(json.dumps({e: {k: out['perE'][str(e)][k] for k in ('E_marg_J', 'E_gross_J', 'E_deep_J')} for e in EPOCHS}, indent=1))
+        print({k: out[k] for k in ('opt_marg', 'opt_gross', 'opt_deep')})
 
 # ---------- figure
 plt.rcParams.update({'font.size': 8, 'axes.labelsize': 8, 'axes.titlesize': 8, 'legend.fontsize': 6.5, 'xtick.labelsize': 7, 'ytick.labelsize': 7,
@@ -160,7 +183,7 @@ for e in EPOCHS:
 ax[0].axhline(TARGET, color='#6b6b6b', ls='--', lw=0.8); ax[0].text(11.8, TARGET - 3.5, '75% target', ha='right', fontsize=6.5, color='#6b6b6b')
 ax[0].set_xlim(0, 12); ax[0].set_ylim(30, 85); ax[0].set_xlabel('Round'); ax[0].set_ylabel('Test accuracy (%)')
 ax[0].legend(frameon=False, ncol=3, loc='lower right', bbox_to_anchor=(1.0, 0.08)); ax[0].set_title('(a) Test accuracy, 20 seeds', loc='left')
-for key, lab, col, mk in [('E_marg_J', 'Marginal', '#0072B2', 'o'), ('E_gross_J', 'Gross awake', '#D55E00', 's'), ('E_deep_J', 'Deep sleep (assumed)', '#009E73', '^')]:
+for key, lab, col, mk in [('E_marg_J', 'Marginal', '#0072B2', 'o'), ('E_gross_J', 'Gross awake', '#D55E00', 's'), ('E_deep_J', 'Deep sleep (' + DEEP_SOURCE + ')', '#009E73', '^')]:
     v = np.array([out['perE'][str(e)][key] for e in EPOCHS])
     ci = np.array([[x * v[i] / out['perE'][str(EPOCHS[i])]['R_mean'] for x in out['perE'][str(EPOCHS[i])]['R_ci']] for i in range(len(EPOCHS))])
     vmax = v.max()

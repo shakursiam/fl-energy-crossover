@@ -1,0 +1,9 @@
+{
+  "started": "2026-10-30T23:28:12",
+  "duration_s": 2787.3,
+  "samples": 2785355,
+  "completed": true,
+  "logger_port": "COM18",
+  "dut_port": "COM7",
+  "logger_header": []
+}

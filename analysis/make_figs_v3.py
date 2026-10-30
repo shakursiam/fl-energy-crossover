@@ -15,7 +15,7 @@ a, c0, dEc, Pb, tep = D['a'], D['c0'], D['dEc'], D['Pb'], D['tep']
 M, T = S[S.campaign_step == 'step1_main'], S[S.campaign_step == 'step2_tail']
 Tm = N['Tcomm']['median']
 
-# ---------- Fig crossover against exchange time (one column, model with assumed sleep values)
+# ---------- Fig crossover against exchange time (one column, model with measured sleep powers, Campaign 4)
 def estar(Ps, Tc_ms, kc=1.0):
     dP = (Pb - Ps) / 1000.0  # W -> mJ per ms
     return (dP * Tc_ms + kc * dEc - c0) / (dP * tep + a)
@@ -24,14 +24,15 @@ fig, ax = plt.subplots(figsize=(3.4, 2.5))
 tc = np.linspace(50, 300, 200)
 ax.axvspan(N['Tcomm']['q25'], N['Tcomm']['q75'], color='#eeeeee', lw=0, zorder=0)
 ax.text((N['Tcomm']['q25'] + N['Tcomm']['q75']) / 2, 1.0, 'middle half\nof 105 runs', ha='center', va='bottom', fontsize=6.5, color=GR)
-for st, col, ls, lab in [('Standby', GR, '--', 'Standby (no sleep)'), ('Modem sleep', PU, '-', r'Modem sleep, $P_s=100$ mW'),
-                         ('Deep sleep', RD, '-', r'Deep sleep, $P_s=0.08$ mW')]:
+for st, col, ls, lab in [('Standby', GR, '--', 'Standby (no sleep)'), ('Modem sleep', PU, '-', r'Modem sleep, $P_s=%.0f$ mW' % sl['Modem sleep']['Ps']),
+                         ('Light sleep', AM, ':', r'Light sleep, $P_s=%.1f$ mW' % sl['Light sleep']['Ps']),
+                         ('Deep sleep', RD, '-', r'Deep sleep, $P_s=%.1f$ mW' % sl['Deep sleep']['Ps'])]:
     ax.plot(tc, estar(sl[st]['Ps'], tc), color=col, ls=ls, lw=1.3, label=lab)
 ax.axvline(Tm, color=GR, lw=0.7, ls=':')
-ax.text(Tm + 3, 27.5, 'median', fontsize=6.5, color=GR)
-ax.set_xlim(50, 300); ax.set_ylim(0, 32)
+ax.text(Tm + 3, 11.8, 'median', fontsize=6.5, color=GR)
+ax.set_xlim(50, 300); ax.set_ylim(0, 37)
 ax.set_xlabel(r'Exchange time $T_{\rm comm}$ (ms)'); ax.set_ylabel(r'Crossover $E^\star$ (epochs)')
-ax.legend(frameon=False, loc='lower right', fontsize=6.5)
+ax.legend(frameon=False, loc='upper left', fontsize=6.5)
 plt.tight_layout(); plt.savefig(fd + '/fig_estar_design.pdf'); plt.close()
 
 # ---------- Fig energy budget per turn (measured fits, T_comm = median)
